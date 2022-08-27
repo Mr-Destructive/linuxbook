@@ -12,3 +12,4 @@ type CreateHelpBookInput struct {
   Description string `json:"description" binding:"required"`
   Parameters string `json:"parameters" binding:"required"`
 }
+

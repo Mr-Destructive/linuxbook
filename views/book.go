@@ -7,10 +7,10 @@ import (
 )
 
 func GetHelpBook(c *gin.Context) {
-  var books []models.HelpBook
-  models.DB.Find(&books)
+  var helpbooks []models.HelpBook
+  models.DB.Find(&helpbooks)
 
-  c.JSON(http.StatusOK, gin.H{"data": books})
+  c.JSON(http.StatusOK, gin.H{"data": helpbooks})
 }
 
 func CreateHelpBook(c *gin.Context) {
@@ -25,13 +25,31 @@ func CreateHelpBook(c *gin.Context) {
 
   c.JSON(http.StatusOK, gin.H{"data": helpbook})
 }
-func IndexHelpBook(c *gin.Context) {
- var book models.HelpBook
 
-  if err := models.DB.Where("Name= ?", c.Param("name")).First(&book).Error; err != nil {
+func IndexHelpBook(c *gin.Context) {
+ var helpbook models.HelpBook
+
+  if err := models.DB.Where("Name= ?", c.Param("name")).First(&helpbook).Error; err != nil {
     c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
     return
   }
 
-  c.JSON(http.StatusOK, gin.H{"data": book})
+  c.JSON(http.StatusOK, gin.H{"data": helpbook})
+}
+
+func UpdateHelpBook(c *gin.Context) {
+  var helpbook models.HelpBook
+  if err := models.DB.Where("id = ?", c.Param("id")).First(&helpbook).Error; err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+    return
+  }
+  var input models.CreateHelpBookInput
+  if err := c.ShouldBindJSON(&input); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
+
+  models.DB.Model(&helpbook).Updates(input)
+
+  c.JSON(http.StatusOK, gin.H{"data": helpbook})
 }
