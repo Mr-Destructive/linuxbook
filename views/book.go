@@ -25,3 +25,13 @@ func CreateHelpBook(c *gin.Context) {
 
   c.JSON(http.StatusOK, gin.H{"data": helpbook})
 }
+func IndexHelpBook(c *gin.Context) {
+ var book models.HelpBook
+
+  if err := models.DB.Where("Name= ?", c.Param("name")).First(&book).Error; err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+    return
+  }
+
+  c.JSON(http.StatusOK, gin.H{"data": book})
+}
