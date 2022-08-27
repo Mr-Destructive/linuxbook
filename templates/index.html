@@ -1,0 +1,12 @@
+<html>
+  <h1>Linux Book</h1>
+  <ul>
+  {{ range .books }}
+  <li>
+  {{ .Name }}
+  <p>{{ .Description }}</p>
+  <p>{{ .Parameters }}</p>
+  </li>
+  {{ end }}
+  </ul>
+</html>
