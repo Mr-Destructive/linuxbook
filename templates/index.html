@@ -3,7 +3,7 @@
   <ul>
   {{ range .books }}
   <li>
-  {{ .Name }}
+    <a href="/helpbooks/{{.Name}}">{{ .Name }}</a>
   <p>{{ .Description }}</p>
   <p>{{ .Parameters }}</p>
   </li>

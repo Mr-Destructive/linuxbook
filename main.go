@@ -12,20 +12,16 @@ func main() {
   r.LoadHTMLGlob("templates/**")
   models.ConnectDatabase()
 
+  // API
   r.GET("/help", api.GetHelpBook)
   r.POST("/create", api.CreateHelpBook)
   r.GET("/get/:name", api.IndexHelpBook)
   r.PATCH("/update/:id", api.UpdateHelpBook)
   r.DELETE("/delete/:id", api.DeleteHelpBook)
+
+  // Templates
   r.GET("/helpbooks",  api.HelpBook)
-  //r.GET("/helpbooks", func(c *gin.Context) {
-  //  var books []models.HelpBook
-  //  log.Print(books)
-  //  models.DB.Find(&books)
-  //  c.HTML(http.StatusOK, "index.html", gin.H{
-  //    "books": books,
-  //  })
-  //})
+  r.GET("/helpbooks/:name",  api.HelpBookIndex)
 
   r.Run()
 }

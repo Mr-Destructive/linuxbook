@@ -1,13 +1,24 @@
 package api
 
 import (
-  "net/http"
-  "github.com/gin-gonic/gin"
-  "linuxbook/models"
+	"linuxbook/models"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 func fetch_helpbooks() []models.HelpBook{
   var helpbook []models.HelpBook
   models.DB.Find(&helpbook)
+  return helpbook
+}
+
+func fetch_helpbook_name(name string) models.HelpBook{
+  var helpbook models.HelpBook
+
+  err := models.DB.Where("Name= ?", name).Find(&helpbook).Error
+      if err != nil {
+        panic(err)
+      }
   return helpbook
 }
 
